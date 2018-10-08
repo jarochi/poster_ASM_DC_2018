@@ -210,10 +210,10 @@ grid.draw(arrangeGrob(grobs = c(lapply(1L:5, function(i)
 @
 
 AmyloGram was used to assign amino acids where assigned to 6 groups. It used eleven combinations of physicochemical properties to create the best performing encoding. Amino acids where divided in subgroups:
-I) lowest propensity to form β-sheets
-II) the most hydrophilic, includes two strongly basic amino acids, and highly flexible
-III) strongly hydrophobic, highest propensity to form β-sheets
-IV) aromatic properties, the most hydrophilic, the least flexible, highest propensity to form β-sheets
+I) lowest propensity to form $\beta$-sheets
+II) the most hydrophilic, includes two strongly basic amino acids, highly flexible
+III) strongly hydrophobic, highest propensity to form $\beta$-sheets
+IV) aromatic properties, the most hydrophilic, the least flexible, highest propensity to form $\beta$-sheets
 V) the least flexible
 VI) strongly hydrophilic and highly flexible
 
@@ -312,7 +312,9 @@ grid.draw(arrangeGrob(grobs = c(lapply(1L:5, function(i)
 
 Both CsgA and CsgB are characterized by a regional structure of five repeated motifs. We found out that the general motif (S-X5-Q-X-G-X2-N-X-A-X3-Q) (the serin in absent in the case of CsgB) is faithfully preserved among different variants of CsgA and CsgB. The residual variability in motifs of both proteins does not affect the sequence of other protein.
 
-The opposite situation happens in CsgC, where mutations are not limited to specific motifs. On the other hand, CsgA and CsgC keep a similar level of the sequence divergence aside from species of Enterobacter and Salmonella genera, where CsgC accumulates more mutations.
+Aligned repeat motifs from CsgA and CsgB show that the variability of these sequences is insignificant. We can also see invariable places, which probably are responsible for protein amyloidogenic properties.
+
+% The opposite situation happens in CsgC, where mutations are not limited to specific motifs. On the other hand, CsgA and CsgC keep a similar level of the sequence divergence aside from species of Enterobacter and Salmonella genera, where CsgC accumulates more mutations.
 
 \end{block}
 \vfill
