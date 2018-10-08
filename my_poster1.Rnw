@@ -95,7 +95,7 @@ library(AmyloGram)
 @
 
 
-CsgA, also known as a major curli component, is a secreted protein ubiquitous in biofilms of gram-negative bacteria (Zhou et al., 2012a). Thanks to its ability to create durable fibers, CsgA is a dominant proteinaceous scaffold of biofilms. In fact, CsgA belongs to amyloids, proteins that form fibers during a spontaneous aggregation. CsgC, a sequence-specific inhibitor, is able to arrest aggregation of CsgA in periplasmic space (Evans et al., 2015).
+CsgA, also known as a major curli component, is a secreted protein ubiquitous in biofilms of gram-negative bacteria (Zhou et al., 2012a). Thanks to its ability to create durable fibers, CsgA is a dominant proteinaceous scaffold of biofilms. In fact, CsgA belongs to amyloids, proteins that form fibers during a spontaneous aggregation. 
 
 The presence of pre-formed amyloid fibers can accelerate aggregation of other amyloids. This process is known as cross-seeding. It is extremely sequence specific and can be restricted by a difference in a single amino acid (Zhou et al., 2012b). CsgA can be in vivo cross-seeded by its nucleator protein, CsgB, but also other CsgA fibrils.
 \end{block}
