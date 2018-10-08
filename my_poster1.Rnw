@@ -105,7 +105,7 @@ The presence of pre-formed amyloid fibers can accelerate aggregation of other am
 
 \begin{columns}
     \begin{column}{0.55\textwidth}
-        \includegraphics[width=0.9\columnwidth]{schemat_psi_blast.eps}
+        \includegraphics[width=0.75\columnwidth]{schemat_psi_blast.eps}
     \end{column}
     \begin{column}{0.43\textwidth}
         We used CsgA from \textit{E. coli} K12 as a starting point of our search for CsgA homologs.
@@ -209,13 +209,54 @@ grid.draw(arrangeGrob(grobs = c(lapply(1L:5, function(i)
 
 @
 
-AmyloGram was used to assign amino acids where assigned to 6 groups. It used eleven combinations of physicochemical properties to create the best performing encoding. Amino acids where divided in subgroups:
-I) lowest propensity to form $\beta$-sheets
-II) the most hydrophilic, includes two strongly basic amino acids, highly flexible
-III) strongly hydrophobic, highest propensity to form $\beta$-sheets
-IV) aromatic properties, the most hydrophilic, the least flexible, highest propensity to form $\beta$-sheets
-V) the least flexible
-VI) strongly hydrophilic and highly flexible
+
+\begin{columns}
+    \begin{column}{0.3\textwidth}
+        \includegraphics[width=0.9\columnwidth]{AG.eps}
+    \end{column}
+    \begin{column}{0.75\textwidth}
+    
+        \bigskip
+        
+        AmyloGram was used to create reduced aa alphabet.
+        The software assigned amino acids into 6 groups, by using eleven combinations of physicochemical properties.
+        
+        \bigskip 
+        
+        I) lowest propensity to form $\beta$-sheets
+        
+        \bigskip
+        
+        II) the most hydrophilic, includes two strongly basic amino acids, highly flexible
+        
+        \bigskip
+        
+        III) strongly hydrophobic, highest propensity to form $\beta$-sheets
+        
+        \bigskip
+        
+        IV) aromatic properties, the most hydrophilic, the least flexible, highest propensity to form $\beta$-sheets
+        
+        \bigskip
+        
+        V) the least flexible
+        
+        \bigskip
+        
+        VI) strongly hydrophilic and highly flexible
+        
+    \end{column}
+\end{columns}
+
+% AmyloGram was used to create reduced aa alphabet.
+% The software assigned amino acids into 6 groups, by using eleven combinations of physicochemical properties.
+% Amino acids where divided in subgroups:
+% I) lowest propensity to form $\beta$-sheets
+% II) the most hydrophilic, includes two strongly basic amino acids, highly flexible
+% III) strongly hydrophobic, highest propensity to form $\beta$-sheets
+% IV) aromatic properties, the most hydrophilic, the least flexible, highest propensity to form $\beta$-sheets
+% V) the least flexible
+% VI) strongly hydrophilic and highly flexible
 
 \end{block}
 \vfill
@@ -312,10 +353,7 @@ grid.draw(arrangeGrob(grobs = c(lapply(1L:5, function(i)
 
 Both CsgA and CsgB are characterized by a regional structure of five repeated motifs. We found out that the general motif (S-X5-Q-X-G-X2-N-X-A-X3-Q) (the serin in absent in the case of CsgB) is faithfully preserved among different variants of CsgA and CsgB. The residual variability in motifs of both proteins does not affect the sequence of other protein.
 
-Aligned repeat motifs from CsgA and CsgB show that the variability of these sequences is insignificant. We can also see invariable places, which probably are responsible for protein amyloidogenic properties.
-
-% The opposite situation happens in CsgC, where mutations are not limited to specific motifs. On the other hand, CsgA and CsgC keep a similar level of the sequence divergence aside from species of Enterobacter and Salmonella genera, where CsgC accumulates more mutations.
-
+Aligned repeat motifs from CsgA and CsgB show that the variability of these sequences is insignificant. We can also see invariable places, which probably are responsible for protein amyloidogenic properties. 
 \end{block}
 \vfill
 
@@ -349,9 +387,7 @@ Among 2678 investigated strains,
 \vfill 
 \begin{block}{Conclusions}
 
-The interplay of CsgA, CsgB and CsgC suggests that if a mutation occurs in the region responsible for protein interaction, it should be compensated by mutations in other two proteins. For example, the presence of mutations that decrease the aggregation rate of CsgA, allows CsgC to become a less effective inhibitor without affecting the wellbeing of bacteria. Our preliminary study partially confirms this hypothesis by finding out that genera with less efficient CsgA, as Salmonella, can accumulate more mutations in the sequence of CsgC.
-
-We have not identified any simultaneous mutations between CsgA and CsgB. This may be due that single mutation in one region is not enough to change the protein function and to cause mutations in another protein. Probably, the compensation of single mutations by the regional structure of mentioned proteins is sufficient.
+The interplay of CsgA and CsgB suggests that if a mutation occurs in the region responsible for protein interaction, it should be compensated by mutations in other protein. We have not identified any simultaneous mutations between CsgA and CsgB. This may be due that single mutation in one region is not enough to change the protein function and to cause mutations in another protein. Probably, the compensation of single mutations by the regional structure of mentioned proteins is sufficient.
 
 \end{block}
 \vfill 
