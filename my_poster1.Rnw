@@ -101,8 +101,16 @@ The presence of pre-formed amyloid fibers can accelerate aggregation of other am
 \end{block}
 
 
-\begin{block}{Methods}
-We recently published AmyloGram (Burdukiewicz et al., 2017). It is an efficient tool for prediction of amyloid proteins as CsgA and CsgB. Among others, our algorithm produces a simplified amino acid alphabet for amyloid proteins. It groups amino acid together into six groups based on their physicochemical features. We combined sequences of 2678 triplets CsgA-CsgB-CsgC from closely related gram-negative bacteria and used EVmutation software (Hopf et al., 2017) to find out which residues are especially susceptible to simultaneous mutations. 
+
+  \begin{block}{Methods}
+  We recently published AmyloGram (Burdukiewicz et al., 2017). It is an efficient tool for prediction of amyloid proteins as CsgA and CsgB. Among others, our algorithm produces a simplified amino acid alphabet for amyloid proteins. It groups amino acid together into six groups based on their physicochemical features. We combined sequences of 2678 triplets CsgA-CsgB-CsgC from closely related gram-negative bacteria and aligned them to find out which residues are especially susceptible to simultaneous mutations. 
+  
+\begin{figure}
+\includegraphics[width=0.35\columnwidth]{schemat_psi_blast.eps}
+\end{figure}
+\vfill
+  
+
 \end{block}
 
 
@@ -180,9 +188,6 @@ grid.newpage()
 grid.draw(arrangeGrob(grobs = c(lapply(1L:5, function(i)
   textGrob(paste0("R", i), vjust = -4, gp=gpar(fontsize=18))),
   CsgA_logos), ncol = 2, as.table = FALSE, widths = c(0.02, 0.98)))
-
-
-
 
 @
 
