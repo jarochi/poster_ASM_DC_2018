@@ -104,12 +104,32 @@ The presence of pre-formed amyloid fibers can accelerate aggregation of other am
 
   \begin{block}{Methods}
   We recently published AmyloGram (Burdukiewicz et al., 2017). It is an efficient tool for prediction of amyloid proteins as CsgA and CsgB. Among others, our algorithm produces a simplified amino acid alphabet for amyloid proteins. It groups amino acid together into six groups based on their physicochemical features. We combined sequences of 2678 triplets CsgA-CsgB-CsgC from closely related gram-negative bacteria and aligned them to find out which residues are especially susceptible to simultaneous mutations. 
-  
-\begin{figure}
-\includegraphics[width=0.35\columnwidth]{schemat_psi_blast.eps}
-\end{figure}
-\vfill
-  
+
+\begin{columns}
+    \begin{column}{0.55\textwidth}
+        \includegraphics[width=0.9\columnwidth]{schemat_psi_blast.eps}
+    \end{column}
+    \begin{column}{0.43\textwidth}
+        We used CsgA from \textit{E. coli} K12 as a starting point of our search for CsgA homologs.
+        
+        \bigskip
+        
+        After five iterations of PSI-Blast, we found 5007 sequences producing significant alignments with E-value lower than the threshold.
+        
+        \bigskip
+        
+        We evaluated sequences using a simple heuristic approach to find the most probable candidates for the CsgA proteins.
+        
+        \bigskip
+        
+        Proteins were used to find appropriate genomes in the Nucleotide database.
+        
+        \bigskip
+        
+        Using genomic information, we reconstructed CsgBAC operons.
+        
+    \end{column}
+\end{columns}
 
 \end{block}
 
