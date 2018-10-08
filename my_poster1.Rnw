@@ -101,32 +101,32 @@ The presence of pre-formed amyloid fibers can accelerate aggregation of other am
 \end{block}
 
 
-  \begin{block}{Methods}
+\begin{block}{Methods}
 
 \begin{columns}
-    \begin{column}{0.55\textwidth}
-        \includegraphics[width=0.9\columnwidth]{schemat_psi_blast.eps}
-    \end{column}
-    \begin{column}{0.43\textwidth}
-        We used CsgA from \textit{E. coli} K12 as a starting point of our search for CsgA homologs.
-        
-        \bigskip
-        
-        After five iterations of PSI-Blast, we found 5007 sequences producing significant alignments with E-value lower than the threshold.
-        
-        \bigskip
-        
-        We evaluated sequences using a simple heuristic approach to find the most probable candidates for the CsgA proteins.
-        
-        \bigskip
-        
-        Proteins were used to find appropriate genomes in the Nucleotide database.
-        
-        \bigskip
-        
-        Using genomic information, we reconstructed CsgBAC operons.
-        
-    \end{column}
+\begin{column}{0.55\textwidth}
+\includegraphics[width=0.9\columnwidth]{schemat_psi_blast.eps}
+\end{column}
+\begin{column}{0.43\textwidth}
+We used CsgA from \textit{E. coli} K12 as a starting point of our search for CsgA homologs.
+
+\bigskip
+
+After five iterations of PSI-Blast, we found 5007 sequences producing significant alignments with E-value lower than the threshold.
+
+\bigskip
+
+We evaluated sequences using a simple heuristic approach to find the most probable candidates for the CsgA proteins.
+
+\bigskip
+
+Proteins were used to find appropriate genomes in the Nucleotide database.
+
+\bigskip
+
+Using genomic information, we reconstructed CsgBAC operons.
+
+\end{column}
 \end{columns}
 
 \end{block}
@@ -189,6 +189,7 @@ plot_logo_region <- function(seq_path, region){
     geom_logo(apply(aln_dat[, real_positions %in% region], 1, paste0, collapse = ""),
               method = "probability",
               col_scheme = amylogram_color_scheme) + 
+    scale_fill_discrete("AmyloGram group", drop = FALSE) + 
     theme_logo() +
     theme(legend.position = "none")
 }
@@ -199,13 +200,15 @@ CsgA_logos <- lapply(CsgA_regions, function(i)
 
 CsgA_logos[[5]] <- CsgA_logos[[5]] + theme(legend.position = "bottom")
 
-CsgB_logos <- lapply(CsgA_regions, function(i)
-  plot_logo_region(seq_path = seq_path_CsgB, region = i))
-
 grid.newpage()
-grid.draw(arrangeGrob(grobs = c(lapply(1L:5, function(i)
-  textGrob(paste0("R", i), vjust = -4, gp=gpar(fontsize=18))),
-  CsgA_logos), ncol = 2, as.table = FALSE, widths = c(0.02, 0.98)))
+grid.draw(arrangeGrob(grobs = c(list(rectGrob(gp = gpar(fill = NA, col = NA))),
+  lapply(1L:5, function(i) textGrob(paste0("R", i), vjust = -4, gp = gpar(fontsize = 18))),
+  list(textGrob("CsgA", gp=gpar(fontsize = 38, fontface = "bold"))),
+  CsgA_logos), 
+  ncol = 2, as.table = FALSE, 
+  widths = c(0.02, 0.98),
+  heights = c(0.08, rep(0.18, 4), 0.2)))
+
 
 @
 
@@ -238,75 +241,19 @@ VI) strongly hydrophilic and highly flexible
 
 <<echo = FALSE,message=FALSE,fig.align='center',fig.width=15,fig.height=10,warning=FALSE>>=
 
-if(Sys.info()[["nodename"]] %in% c("amyloid", "lori")) {
-  seq_path_CsgA <- "/home/michal/Dropbox/dropbox-amylogram/PSI-blast/CsgA_muscle.fas"
-  seq_path_CsgB <- "/home/michal/Dropbox/dropbox-amylogram/PSI-blast/CsgB_muscle.fas"
-}
-if(Sys.info()[["nodename"]] %in% c("MSI-GE60-2PE")) {
-  seq_path_CsgA <- "/home/jarek/Dropbox/amyloids/PSI-blast/CsgA_muscle.fas"
-  seq_path_CsgB <- "/home/jarek/Dropbox/amyloids/PSI-blast/CsgB_muscle.fas"
-}
-
-CsgA_regions <- list(R1 = 43L:65, 
-                     R2 = 66L:87,
-                     R3 = 88L:110,
-                     R4 = 111L:132,
-                     R5 = 133L:151)
-
-CsgB_regions <- list(R1 = 45L:66, 
-                     R2 = 67L:88,
-                     R3 = 89L:110,
-                     R4 = 111L:132,
-                     R5 = 133L:154)
-
-plot_logo_region <- function(seq_path, region){
-  
-  all_lines <- readLines(seq_path)
-  
-  prot_id <- cumsum(grepl("^>", all_lines))
-  
-  all_prots <- split(all_lines, prot_id)
-  
-  aln_dat <- lapply(all_prots, function(ith_prot) {
-    strsplit(paste0(ith_prot[-1], collapse = ""), "")[[1]]
-  }) %>% 
-    do.call(rbind, .)
-  
-  real_positions <- cumsum(aln_dat[1, ] != "-")
-  
-  aa_vec <- lapply(AmyloGram_model[["enc"]], toupper) %>% unlist
-  
-  amylogram_color_scheme <- make_col_scheme(chars = unname(aa_vec), 
-                                            groups = factor(substr(names(aa_vec), 0, 1),
-                                                            labels = unlist(lapply(AmyloGram_model[["enc"]], 
-                                                                                   function(i) paste0(toupper(i), collapse = ", ")))), 
-                                            cols = factor(substr(names(aa_vec), 0, 1), 
-                                                          labels = c("chartreuse3", "dodgerblue2", "firebrick1", 
-                                                                     "darkorange", "darkseagreen4", "darkorchid3")) %>% 
-                                              as.character())
-  
-  
-  ggplot() + 
-    geom_logo(apply(aln_dat[, real_positions %in% region], 1, paste0, collapse = ""),
-              method = "probability",
-              col_scheme = amylogram_color_scheme) + 
-    theme_logo() +
-    theme(legend.position = "none")
-}
-
-
-CsgB_logos <- lapply(CsgB_regions, function(i)
-  plot_logo_region(seq_path = seq_path_CsgA, region = i))
-
-CsgB_logos[[5]] <- CsgB_logos[[5]] + theme(legend.position = "bottom")
-
 CsgB_logos <- lapply(CsgB_regions, function(i)
   plot_logo_region(seq_path = seq_path_CsgB, region = i))
 
+CsgB_logos[[5]] <- CsgB_logos[[5]] + theme(legend.position = "bottom")
+
 grid.newpage()
-grid.draw(arrangeGrob(grobs = c(lapply(1L:5, function(i)
-  textGrob(paste0("R", i), vjust = -4, gp=gpar(fontsize=18))),
-  CsgB_logos), ncol = 2, as.table = FALSE, widths = c(0.02, 0.98)))
+grid.draw(arrangeGrob(grobs = c(list(rectGrob(gp = gpar(fill = NA, col = NA))),
+  lapply(1L:5, function(i) textGrob(paste0("R", i), vjust = -4, gp = gpar(fontsize = 18))),
+  list(textGrob("CsgB", gp=gpar(fontsize = 38, fontface = "bold"))),
+  CsgB_logos), 
+  ncol = 2, as.table = FALSE, 
+  widths = c(0.02, 0.98),
+  heights = c(0.08, rep(0.18, 4), 0.2)))
 
 @
 
@@ -343,7 +290,7 @@ group_by(mutation_df, pos_max_mutations, nonmutated, max_mutations) %>%
   theme(legend.position = c(0.85, 0.2))
 @
 
-Among 2678 investigated strains, 
+Among 2678 investigated strains, only 652 (24\%) had mutations in any repeat of the CsgA motif. The majority (470) of strains had only a single mutation, mostly in G (11). An insignificant fraction had more than 2 mutations. 157 strains (6\%) had two mutations, usually in S (1) and G (4) (116 strains). 41 strains had simultaneous mutations in G (4) and A (14).
 
 \end{block}
 \vfill 
