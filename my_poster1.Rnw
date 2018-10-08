@@ -88,7 +88,7 @@ library(dplyr)
 library(ggplot2)
 library(reshape2)
 library(ggseqlogo)
-
+library(ggrepel)
 @
   
 
@@ -179,8 +179,35 @@ The opposite situation happens in CsgC, where mutations are not limited to speci
 {
 
 
-    \begin{block}{Conclusions}
+    \begin{block}{Stability of CsgA curli motif}
       
+<<echo = FALSE, message=FALSE,warning=FALSE,fig.width=14,fig.height=10>>=
+load("mutation_df.RData")
+
+group_by(mutation_df, pos_max_mutations, nonmutated, max_mutations) %>% 
+  summarise(count = length(pos_max_mutations)) %>%  
+  ungroup %>% 
+  mutate(pos_max_mutations = factor(pos_max_mutations, 
+                                    labels = c("S(1)", "Q(7)", "G(9)", "G(11)", "N(12)", "A(14)", "Q(18)")),
+         nonmutated = paste0(nonmutated, " nonmutated resiues in the motif"),
+         max_mutations = max_mutations - 1) %>% 
+  ggplot(aes(x = factor(pos_max_mutations), y = count, color = factor(max_mutations), label = count)) +
+  geom_point(size = 4) +
+  geom_text_repel(color = "black", force = 10) +
+  scale_color_discrete("Number of other amino acids\non a given position") + 
+  guides(colour = guide_legend(nrow = 1)) +
+  scale_x_discrete("Position in the motif with the largest number of mutations") +
+  scale_y_continuous("Number of strains") +
+  facet_wrap(~ nonmutated) +
+  theme_bw(base_size = 20) +
+  theme(legend.position = c(0.85, 0.2))
+@
+      
+Among 2678 investigated strains, 
+      
+      \end{block}
+      \vfill 
+      \begin{block}{Conclusions}
       
       The interplay of CsgA, CsgB and CsgC suggests that if a mutation occurs in the region responsible for protein interaction, it should be compensated by mutations in other two proteins. For example, the presence of mutations that decrease the aggregation rate of CsgA, allows CsgC to become a less effective inhibitor without affecting the wellbeing of bacteria. Our preliminary study partially confirms this hypothesis by finding out that genera with less efficient CsgA, as Salmonella, can accumulate more mutations in the sequence of CsgC.
 
