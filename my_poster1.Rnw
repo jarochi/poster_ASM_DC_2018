@@ -102,8 +102,8 @@ The presence of pre-formed amyloid fibers can accelerate aggregation of other am
 
 
 
-  \begin{block}{Methods}
-  We recently published AmyloGram (Burdukiewicz et al., 2017). It is an efficient tool for prediction of amyloid proteins as CsgA and CsgB. Among others, our algorithm produces a simplified amino acid alphabet for amyloid proteins. It groups amino acid together into six groups based on their physicochemical features. We combined sequences of 2678 triplets CsgA-CsgB-CsgC from closely related gram-negative bacteria and aligned them to find out which residues are especially susceptible to simultaneous mutations. 
+\begin{block}{Methods}
+  We recently published AmyloGram (Burdukiewicz et al., 2017). It is an efficient tool for prediction of amyloid proteins as CsgA and CsgB. Among others, our algorithm produces a simplified amino acid alphabet for amyloid proteins. It groups amino acid together into six groups based on their physicochemical features. We combined sequences of 2678 triplets CsgA-CsgB-CsgC from closely related gram-negative bacteria and aligned repeat motifs to find out which residues are especially susceptible to simultaneous mutations. 
   
 \begin{figure}
 \includegraphics[width=0.35\columnwidth]{schemat_psi_blast.eps}
@@ -114,10 +114,10 @@ The presence of pre-formed amyloid fibers can accelerate aggregation of other am
 \end{block}
 
 
-\begin{block}{CsgA}
+\begin{block}{Results}
 
 
-<<echo = FALSE,message=FALSE,fig.align='center',fig.width=15,fig.height=11,warning=FALSE>>=
+<<echo = FALSE,message=FALSE,fig.align='center',fig.width=15,fig.height=10,warning=FALSE>>=
 
 if(Sys.info()[["nodename"]] %in% c("amyloid", "lori")) {
   seq_path_CsgA <- "/home/michal/Dropbox/dropbox-amylogram/PSI-blast/CsgA_muscle.fas"
@@ -191,10 +191,13 @@ grid.draw(arrangeGrob(grobs = c(lapply(1L:5, function(i)
 
 @
 
-Both CsgA and CsgB are characterized by a regional structure of five repeated motifs. We found out that the general motif (S-X5-Q-X-G-X2-N-X-A-X3-Q) (the serin in absent in the case of CsgB) is faithfully preserved among different variants of CsgA and CsgB. The residual variability in motifs of both proteins does not affect the sequence of other protein.
-
-The opposite situation happens in CsgC, where mutations are not limited to specific motifs. On the other hand, CsgA and CsgC keep a similar level of the sequence divergence aside from species of Enterobacter and Salmonella genera, where CsgC accumulates more mutations.
-
+AmyloGram was used to assign amino acids where assigned to 6 groups. It used eleven combinations of physicochemical properties to create the best performing encoding. Amino acids where divided in subgroups:
+I) lowest propensity to form β-sheets
+II) the most hydrophilic, includes two strongly basic amino acids, and highly flexible
+III) strongly hydrophobic, highest propensity to form β-sheets
+IV) aromatic properties, the most hydrophilic, the least flexible, highest propensity to form β-sheets
+V) the least flexible
+VI) strongly hydrophilic and highly flexible
 
 \end{block}
 \vfill
@@ -212,6 +215,89 @@ The opposite situation happens in CsgC, where mutations are not limited to speci
 \parbox[t][\columnheight]{\textwidth}
 {
 
+\begin{block}{Results}
+
+
+<<echo = FALSE,message=FALSE,fig.align='center',fig.width=15,fig.height=10,warning=FALSE>>=
+
+if(Sys.info()[["nodename"]] %in% c("amyloid", "lori")) {
+  seq_path_CsgA <- "/home/michal/Dropbox/dropbox-amylogram/PSI-blast/CsgA_muscle.fas"
+  seq_path_CsgB <- "/home/michal/Dropbox/dropbox-amylogram/PSI-blast/CsgB_muscle.fas"
+}
+if(Sys.info()[["nodename"]] %in% c("MSI-GE60-2PE")) {
+  seq_path_CsgA <- "/home/jarek/Dropbox/amyloids/PSI-blast/CsgA_muscle.fas"
+  seq_path_CsgB <- "/home/jarek/Dropbox/amyloids/PSI-blast/CsgB_muscle.fas"
+}
+
+CsgA_regions <- list(R1 = 43L:65, 
+                     R2 = 66L:87,
+                     R3 = 88L:110,
+                     R4 = 111L:132,
+                     R5 = 133L:151)
+
+CsgB_regions <- list(R1 = 45L:66, 
+                     R2 = 67L:88,
+                     R3 = 89L:110,
+                     R4 = 111L:132,
+                     R5 = 133L:154)
+
+plot_logo_region <- function(seq_path, region){
+  
+  all_lines <- readLines(seq_path)
+  
+  prot_id <- cumsum(grepl("^>", all_lines))
+  
+  all_prots <- split(all_lines, prot_id)
+  
+  aln_dat <- lapply(all_prots, function(ith_prot) {
+    strsplit(paste0(ith_prot[-1], collapse = ""), "")[[1]]
+  }) %>% 
+    do.call(rbind, .)
+  
+  real_positions <- cumsum(aln_dat[1, ] != "-")
+  
+  aa_vec <- lapply(AmyloGram_model[["enc"]], toupper) %>% unlist
+  
+  amylogram_color_scheme <- make_col_scheme(chars = unname(aa_vec), 
+                                            groups = factor(substr(names(aa_vec), 0, 1),
+                                                            labels = unlist(lapply(AmyloGram_model[["enc"]], 
+                                                                                   function(i) paste0(toupper(i), collapse = ", ")))), 
+                                            cols = factor(substr(names(aa_vec), 0, 1), 
+                                                          labels = c("chartreuse3", "dodgerblue2", "firebrick1", 
+                                                                     "darkorange", "darkseagreen4", "darkorchid3")) %>% 
+                                              as.character())
+  
+  
+  ggplot() + 
+    geom_logo(apply(aln_dat[, real_positions %in% region], 1, paste0, collapse = ""),
+              method = "probability",
+              col_scheme = amylogram_color_scheme) + 
+    theme_logo() +
+    theme(legend.position = "none")
+}
+
+
+CsgB_logos <- lapply(CsgB_regions, function(i)
+  plot_logo_region(seq_path = seq_path_CsgA, region = i))
+
+CsgB_logos[[5]] <- CsgB_logos[[5]] + theme(legend.position = "bottom")
+
+CsgB_logos <- lapply(CsgB_regions, function(i)
+  plot_logo_region(seq_path = seq_path_CsgB, region = i))
+
+grid.newpage()
+grid.draw(arrangeGrob(grobs = c(lapply(1L:5, function(i)
+  textGrob(paste0("R", i), vjust = -4, gp=gpar(fontsize=18))),
+  CsgB_logos), ncol = 2, as.table = FALSE, widths = c(0.02, 0.98)))
+
+@
+
+Both CsgA and CsgB are characterized by a regional structure of five repeated motifs. We found out that the general motif (S-X5-Q-X-G-X2-N-X-A-X3-Q) (the serin in absent in the case of CsgB) is faithfully preserved among different variants of CsgA and CsgB. The residual variability in motifs of both proteins does not affect the sequence of other protein.
+
+The opposite situation happens in CsgC, where mutations are not limited to specific motifs. On the other hand, CsgA and CsgC keep a similar level of the sequence divergence aside from species of Enterobacter and Salmonella genera, where CsgC accumulates more mutations.
+
+\end{block}
+\vfill
 
 \begin{block}{Stability of CsgA curli motif}
 
