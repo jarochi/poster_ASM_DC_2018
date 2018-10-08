@@ -162,9 +162,17 @@ B3 <- plot_logo_region(seq_path = seq_path_CsgB, region = CsgB_regions[["R3"]])
 B4 <- plot_logo_region(seq_path = seq_path_CsgB, region = CsgB_regions[["R4"]])
 B5 <- plot_logo_region(seq_path = seq_path_CsgB, region = CsgB_regions[["R5"]])
 
-plot_grid(A1, A2, A3, A4, A5, labels = c("R1", "R2", "R3", "R4", "R5"), nrow = 3, align = "h")
+legend <- get_legend(A1 + theme(legend.position = "bottom"))
 
-plot_grid(B1, B2, B3, B4, B5, labels = c("R1", "R2", "R3", "R4", "R5"), nrow = 3, align = "h")
+plot_grid(A1+theme(legend.position = "none"), B1+theme(legend.position = "none"), 
+          A2+theme(legend.position = "none"), B2+theme(legend.position = "none"), 
+          A3+theme(legend.position = "none"), B3+theme(legend.position = "none"), 
+          A4+theme(legend.position = "none"), B4+theme(legend.position = "none"), 
+          A5+theme(legend.position = "none"), B5+theme(legend.position = "none"), 
+          legend, NULL,
+          labels = c("R1", "R2", "R3", "R4", "R5"), nrow = 6, ncol = 2, align = "h")
+
+# plot_grid(B1, B2, B3, B4, B5, labels = c("R1", "R2", "R3", "R4", "R5"), nrow = 5, align = "h")
 
 @
   
