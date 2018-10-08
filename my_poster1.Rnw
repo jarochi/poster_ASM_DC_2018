@@ -56,8 +56,8 @@
 \renewcommand{\APACrefatitle}[2]{}
 \renewcommand{\bibliographytypesize}{\footnotesize} 
 \renewcommand{\APACrefYearMonthDay}[3]{%
-  {\BBOP}{#1}
-  {\BBCP}
+{\BBOP}{#1}
+{\BBCP}
 }
 
 \begin{document}
@@ -89,9 +89,11 @@ library(ggplot2)
 library(reshape2)
 library(ggseqlogo)
 library(ggrepel)
-library(cowplot)
+library(gridExtra)
+library(grid)
+library(AmyloGram)
 @
-  
+
 
 CsgA, also known as a major curli component, is a secreted protein ubiquitous in biofilms of gram-negative bacteria (Zhou et al., 2012a). Thanks to its ability to create durable fibers, CsgA is a dominant proteinaceous scaffold of biofilms. In fact, CsgA belongs to amyloids, proteins that form fibers during a spontaneous aggregation. CsgC, a sequence-specific inhibitor, is able to arrest aggregation of CsgA in periplasmic space (Evans et al., 2015).
 
@@ -99,23 +101,23 @@ The presence of pre-formed amyloid fibers can accelerate aggregation of other am
 \end{block}
 
 
-  \begin{block}{Methods}
-  We recently published AmyloGram (Burdukiewicz et al., 2017). It is an efficient tool for prediction of amyloid proteins as CsgA and CsgB. Among others, our algorithm produces a simplified amino acid alphabet for amyloid proteins. It groups amino acid together into six groups based on their physicochemical features. We combined sequences of 2678 triplets CsgA-CsgB-CsgC from closely related gram-negative bacteria and used EVmutation software (Hopf et al., 2017) to find out which residues are especially susceptible to simultaneous mutations. 
+\begin{block}{Methods}
+We recently published AmyloGram (Burdukiewicz et al., 2017). It is an efficient tool for prediction of amyloid proteins as CsgA and CsgB. Among others, our algorithm produces a simplified amino acid alphabet for amyloid proteins. It groups amino acid together into six groups based on their physicochemical features. We combined sequences of 2678 triplets CsgA-CsgB-CsgC from closely related gram-negative bacteria and used EVmutation software (Hopf et al., 2017) to find out which residues are especially susceptible to simultaneous mutations. 
 \end{block}
 
 
-  \begin{block}{Results}
+\begin{block}{CsgA}
 
 
-<<echo = FALSE,message=FALSE,fig.align='center',fig.width=14,fig.height=10,warning=FALSE>>=
+<<echo = FALSE,message=FALSE,fig.align='center',fig.width=15,fig.height=11,warning=FALSE>>=
 
 if(Sys.info()[["nodename"]] %in% c("amyloid", "lori")) {
   seq_path_CsgA <- "/home/michal/Dropbox/dropbox-amylogram/PSI-blast/CsgA_muscle.fas"
   seq_path_CsgB <- "/home/michal/Dropbox/dropbox-amylogram/PSI-blast/CsgB_muscle.fas"
 }
 if(Sys.info()[["nodename"]] %in% c("MSI-GE60-2PE")) {
-seq_path_CsgA <- "/home/jarek/Dropbox/amyloids/PSI-blast/CsgA_muscle.fas"
-seq_path_CsgB <- "/home/jarek/Dropbox/amyloids/PSI-blast/CsgB_muscle.fas"
+  seq_path_CsgA <- "/home/jarek/Dropbox/amyloids/PSI-blast/CsgA_muscle.fas"
+  seq_path_CsgB <- "/home/jarek/Dropbox/amyloids/PSI-blast/CsgB_muscle.fas"
 }
 
 CsgA_regions <- list(R1 = 43L:65, 
@@ -145,45 +147,52 @@ plot_logo_region <- function(seq_path, region){
   
   real_positions <- cumsum(aln_dat[1, ] != "-")
   
-  ggplot() + geom_logo( apply(aln_dat[, real_positions %in% region], 1, paste0, collapse = "")) + theme_logo()
+  aa_vec <- lapply(AmyloGram_model[["enc"]], toupper) %>% unlist
+  
+  amylogram_color_scheme <- make_col_scheme(chars = unname(aa_vec), 
+                                            groups = factor(substr(names(aa_vec), 0, 1),
+                                                            labels = unlist(lapply(AmyloGram_model[["enc"]], 
+                                                                                   function(i) paste0(toupper(i), collapse = ", ")))), 
+                                            cols = factor(substr(names(aa_vec), 0, 1), 
+                                                          labels = c("chartreuse3", "dodgerblue2", "firebrick1", 
+                                                                     "darkorange", "darkseagreen4", "darkorchid3")) %>% 
+                                              as.character())
+  
+  
+  ggplot() + 
+    geom_logo(apply(aln_dat[, real_positions %in% region], 1, paste0, collapse = ""),
+              method = "probability",
+              col_scheme = amylogram_color_scheme) + 
+    theme_logo() +
+    theme(legend.position = "none")
 }
 
 
-A1 <- plot_logo_region(seq_path = seq_path_CsgA, region = CsgA_regions[["R1"]])
-A2 <- plot_logo_region(seq_path = seq_path_CsgA, region = CsgA_regions[["R2"]])
-A3 <- plot_logo_region(seq_path = seq_path_CsgA, region = CsgA_regions[["R3"]])
-A4 <- plot_logo_region(seq_path = seq_path_CsgA, region = CsgA_regions[["R4"]])
-A5 <- plot_logo_region(seq_path = seq_path_CsgA, region = CsgA_regions[["R5"]])
+CsgA_logos <- lapply(CsgA_regions, function(i)
+  plot_logo_region(seq_path = seq_path_CsgA, region = i))
+
+CsgA_logos[[5]] <- CsgA_logos[[5]] + theme(legend.position = "bottom")
+
+CsgB_logos <- lapply(CsgA_regions, function(i)
+  plot_logo_region(seq_path = seq_path_CsgB, region = i))
+
+grid.newpage()
+grid.draw(arrangeGrob(grobs = c(lapply(1L:5, function(i)
+  textGrob(paste0("R", i), vjust = -4, gp=gpar(fontsize=18))),
+  CsgA_logos), ncol = 2, as.table = FALSE, widths = c(0.02, 0.98)))
 
 
-B1 <- plot_logo_region(seq_path = seq_path_CsgB, region = CsgB_regions[["R1"]])
-B2 <- plot_logo_region(seq_path = seq_path_CsgB, region = CsgB_regions[["R2"]])
-B3 <- plot_logo_region(seq_path = seq_path_CsgB, region = CsgB_regions[["R3"]])
-B4 <- plot_logo_region(seq_path = seq_path_CsgB, region = CsgB_regions[["R4"]])
-B5 <- plot_logo_region(seq_path = seq_path_CsgB, region = CsgB_regions[["R5"]])
 
-legend <- get_legend(A1 + theme(legend.position = "bottom"))
-
-plot_grid(A1+theme(legend.position = "none"), B1+theme(legend.position = "none"), 
-          A2+theme(legend.position = "none"), B2+theme(legend.position = "none"), 
-          A3+theme(legend.position = "none"), B3+theme(legend.position = "none"), 
-          A4+theme(legend.position = "none"), B4+theme(legend.position = "none"), 
-          A5+theme(legend.position = "none"), B5+theme(legend.position = "none"), 
-          legend, NULL,
-          labels = c("R1", "R2", "R3", "R4", "R5"), nrow = 6, ncol = 2, align = "h")
-
-# plot_grid(B1, B2, B3, B4, B5, labels = c("R1", "R2", "R3", "R4", "R5"), nrow = 5, align = "h")
 
 @
-  
 
 Both CsgA and CsgB are characterized by a regional structure of five repeated motifs. We found out that the general motif (S-X5-Q-X-G-X2-N-X-A-X3-Q) (the serin in absent in the case of CsgB) is faithfully preserved among different variants of CsgA and CsgB. The residual variability in motifs of both proteins does not affect the sequence of other protein.
 
 The opposite situation happens in CsgC, where mutations are not limited to specific motifs. On the other hand, CsgA and CsgC keep a similar level of the sequence divergence aside from species of Enterobacter and Salmonella genera, where CsgC accumulates more mutations.
 
 
-    \end{block}
-    \vfill
+\end{block}
+\vfill
 }
 \end{minipage}
 \end{beamercolorbox}
@@ -199,8 +208,8 @@ The opposite situation happens in CsgC, where mutations are not limited to speci
 {
 
 
-    \begin{block}{Stability of CsgA curli motif}
-      
+\begin{block}{Stability of CsgA curli motif}
+
 <<echo = FALSE, message=FALSE,warning=FALSE,fig.width=14,fig.height=10>>=
 load("mutation_df.RData")
 
@@ -222,20 +231,20 @@ group_by(mutation_df, pos_max_mutations, nonmutated, max_mutations) %>%
   theme_bw(base_size = 20) +
   theme(legend.position = c(0.85, 0.2))
 @
-      
+
 Among 2678 investigated strains, 
-      
-      \end{block}
-      \vfill 
-      \begin{block}{Conclusions}
-      
-      The interplay of CsgA, CsgB and CsgC suggests that if a mutation occurs in the region responsible for protein interaction, it should be compensated by mutations in other two proteins. For example, the presence of mutations that decrease the aggregation rate of CsgA, allows CsgC to become a less effective inhibitor without affecting the wellbeing of bacteria. Our preliminary study partially confirms this hypothesis by finding out that genera with less efficient CsgA, as Salmonella, can accumulate more mutations in the sequence of CsgC.
+
+\end{block}
+\vfill 
+\begin{block}{Conclusions}
+
+The interplay of CsgA, CsgB and CsgC suggests that if a mutation occurs in the region responsible for protein interaction, it should be compensated by mutations in other two proteins. For example, the presence of mutations that decrease the aggregation rate of CsgA, allows CsgC to become a less effective inhibitor without affecting the wellbeing of bacteria. Our preliminary study partially confirms this hypothesis by finding out that genera with less efficient CsgA, as Salmonella, can accumulate more mutations in the sequence of CsgC.
 
 We have not identified any simultaneous mutations between CsgA and CsgB. This may be due that single mutation in one region is not enough to change the protein function and to cause mutations in another protein. Probably, the compensation of single mutations by the regional structure of mentioned proteins is sufficient.
 
-    \end{block}
-    \vfill 
-    
+\end{block}
+\vfill 
+
 
 }
 \end{minipage}
