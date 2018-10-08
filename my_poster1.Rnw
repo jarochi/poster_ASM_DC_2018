@@ -86,9 +86,9 @@
 <<knitrIntro, echo = FALSE, message=FALSE,warning=FALSE>>=
 
 library(dplyr)
-library(chipPCR)
 library(ggplot2)
 library(reshape2)
+library(ggseqlogo)
 @
   
 
@@ -107,9 +107,6 @@ The presence of pre-formed amyloid fibers can accelerate aggregation of other am
 
 
 <<echo = FALSE,message=FALSE,fig.align='center',fig.width=14,fig.height=10,warning=FALSE>>=
-  library(ggplot2)
-library(dplyr)
-library(ggseqlogo)
 
 if(Sys.info()[["nodename"]] %in% c("amyloid", "lori")) {
   seq_path_CsgA <- "/home/michal/Dropbox/dropbox-amylogram/PSI-blast/CsgA_muscle.fas"
