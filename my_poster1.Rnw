@@ -208,7 +208,7 @@ grid.draw(arrangeGrob(grobs = c(list(rectGrob(gp = gpar(fill = NA, col = NA))),
   CsgA_logos), 
   ncol = 2, as.table = FALSE, 
   widths = c(0.02, 0.98),
-  heights = c(0.08, rep(0.18, 4), 0.2)))
+  heights = c(0.07, rep(0.17, 4), 0.25)))
 
 
 @
@@ -216,7 +216,7 @@ grid.draw(arrangeGrob(grobs = c(list(rectGrob(gp = gpar(fill = NA, col = NA))),
 
 \begin{columns}
     \begin{column}{0.3\textwidth}
-        \includegraphics[width=0.9\columnwidth]{AG.eps}
+        \includegraphics[width=0.8\columnwidth]{AG.eps}
     \end{column}
     \begin{column}{0.75\textwidth}
     
@@ -295,7 +295,7 @@ grid.draw(arrangeGrob(grobs = c(list(rectGrob(gp = gpar(fill = NA, col = NA))),
   CsgB_logos), 
   ncol = 2, as.table = FALSE, 
   widths = c(0.02, 0.98),
-  heights = c(0.08, rep(0.18, 4), 0.2)))
+  heights = c(0.07, rep(0.17, 4), 0.25)))
 
 @
 
