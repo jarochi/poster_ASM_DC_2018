@@ -64,9 +64,9 @@
 
 \date{}
 
-\author{\large \underline{Jaros\l{}aw Chilimoniuk}\inst{1}, Pawe\l{} Mackiewicz\inst{1} and Micha\l{} Burdukiewicz\inst{2}*\\
+\author{\large \underline{Jaros\l{}aw Chilimoniuk}\inst{1}*, Pawe\l{} Mackiewicz\inst{1} and Micha\l{} Burdukiewicz\inst{2}\\
 \bigskip
-\normaltext{*michal.burdukiewicz@gmail.com}}
+\normaltext{*jaroslaw.chilimoniuk@gmail.com}}
 
 \institute{\small{\textsuperscript{1}University of Wroc\l{}aw, Department of Genomics, Wroc\l{}aw, POLAND
 \textsuperscript{2}Warsaw University of Technology, Warsaw, POLAND}}
@@ -95,9 +95,9 @@ library(AmyloGram)
 @
 
 
-CsgA, also known as a major curli component, is a secreted protein ubiquitous in biofilms of gram-negative bacteria (Zhou et al., 2012a). Thanks to its ability to create durable fibers, CsgA is a dominant proteinaceous scaffold of biofilms. In fact, CsgA belongs to amyloids, proteins that form fibers during a spontaneous aggregation. 
+CsgA, also known as a major curli component, is a secreted protein ubiquitous in biofilms of gram-negative bacteria. Thanks to its ability to create durable fibers, CsgA is a dominant proteinaceous scaffold of biofilms. In fact, CsgA belongs to amyloids, proteins that form fibers during a spontaneous aggregation. 
 
-The presence of pre-formed amyloid fibers can accelerate aggregation of other amyloids. This process is known as cross-seeding. It is extremely sequence specific and can be restricted by a difference in a single amino acid (Zhou et al., 2012b). CsgA can be in vivo cross-seeded by its nucleator protein, CsgB, but also other CsgA fibrils.
+The presence of pre-formed amyloid fibers can accelerate aggregation of other amyloids. This process is known as cross-seeding. It is extremely sequence specific and can be restricted by a difference in a single amino acid. CsgA can be in vivo cross-seeded by its nucleator protein, CsgB, but also other CsgA fibrils.
 \end{block}
 
 
@@ -222,7 +222,7 @@ grid.draw(arrangeGrob(grobs = c(list(rectGrob(gp = gpar(fill = NA, col = NA))),
     
         \bigskip
         
-        AmyloGram was used to create reduced aa alphabet.
+        AmyloGram \citep{burdukiewicz_amyloidogenic_2017-1} was used to create reduced aa alphabet.
         The software assigned amino acids into 6 groups, by using eleven combinations of physicochemical properties.
         
         \bigskip 
@@ -299,7 +299,7 @@ grid.draw(arrangeGrob(grobs = c(list(rectGrob(gp = gpar(fill = NA, col = NA))),
 
 @
 
-Both CsgA and CsgB are characterized by a regional structure of five repeated motifs. We found out that the general motif (S-X5-Q-X-G-X2-N-X-A-X3-Q) (the serin in absent in the case of CsgB) is faithfully preserved among different variants of CsgA and CsgB. The residual variability in motifs of both proteins does not affect the sequence of other protein.
+Both CsgA and CsgB are characterized by a regional structure of five repeated motifs. We found out that the general motif (S-X5-Q-X-G-X2-N-X-A-X3-Q) \citep{evans_curli_2014-2} (the serin in absent in the case of CsgB) is faithfully preserved among different variants of CsgA and CsgB. The residual variability in motifs of both proteins does not affect the sequence of other protein.
 
 Aligned repeat motifs from CsgA and CsgB show that the variability of these sequences is insignificant. We can also see invariable places, which probably are responsible for protein amyloidogenic properties. 
 \end{block}
@@ -340,6 +340,13 @@ The interplay of CsgA and CsgB suggests that if a mutation occurs in the region 
 \end{block}
 \vfill 
 
+ \begin{block}{Bibliography}  % -------------------------------------------------- bibliografia nie jest konieczna
+  \tiny{
+  \bibliographystyle{apalike}
+  \bibliography{tymczasowa}
+  }
+  \end{block}
+  \vfill  
 
 }
 \end{minipage}
