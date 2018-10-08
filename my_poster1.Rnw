@@ -307,7 +307,7 @@ Aligned repeat motifs from CsgA and CsgB show that the variability of these sequ
 
 \begin{block}{Stability of CsgA curli motif}
 
-<<echo = FALSE, message=FALSE,warning=FALSE,fig.width=14,fig.height=10>>=
+<<echo = FALSE, message=FALSE,warning=FALSE,fig.width=15,fig.height=11>>=
 load("mutation_df.RData")
 
 group_by(mutation_df, pos_max_mutations, nonmutated, max_mutations) %>% 
@@ -340,7 +340,7 @@ The interplay of CsgA and CsgB suggests that if a mutation occurs in the region 
 \end{block}
 \vfill 
 
- \begin{block}{Bibliography}  % -------------------------------------------------- bibliografia nie jest konieczna
+ \begin{block}{Bibliography}
   \tiny{
   \bibliographystyle{apalike}
   \bibliography{tymczasowa}
