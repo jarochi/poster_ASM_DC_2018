@@ -100,7 +100,13 @@ The presence of pre-formed amyloid fibers can accelerate aggregation of other am
 
 
   \begin{block}{Methods}
-  We recently published AmyloGram (Burdukiewicz et al., 2017). It is an efficient tool for prediction of amyloid proteins as CsgA and CsgB. Among others, our algorithm produces a simplified amino acid alphabet for amyloid proteins. It groups amino acid together into six groups based on their physicochemical features. We combined sequences of 2678 triplets CsgA-CsgB-CsgC from closely related gram-negative bacteria and used EVmutation software (Hopf et al., 2017) to find out which residues are especially susceptible to simultaneous mutations. 
+  We recently published AmyloGram (Burdukiewicz et al., 2017). It is an efficient tool for prediction of amyloid proteins as CsgA and CsgB. Among others, our algorithm produces a simplified amino acid alphabet for amyloid proteins. It groups amino acid together into six groups based on their physicochemical features. We combined sequences of 2678 triplets CsgA-CsgB-CsgC from closely related gram-negative bacteria and aligned them to find out which residues are especially susceptible to simultaneous mutations. 
+  
+\begin{figure}
+\includegraphics[width=0.35\columnwidth]{schemat_psi_blast.eps}
+\end{figure}
+\vfill
+  
 \end{block}
 
 
@@ -168,9 +174,9 @@ plot_grid(A1+theme(legend.position = "none"), B1+theme(legend.position = "none")
           A2+theme(legend.position = "none"), B2+theme(legend.position = "none"), 
           A3+theme(legend.position = "none"), B3+theme(legend.position = "none"), 
           A4+theme(legend.position = "none"), B4+theme(legend.position = "none"), 
-          A5+theme(legend.position = "none"), B5+theme(legend.position = "none"), 
+          A5+theme(legend.position = "none")+xlab("csgA"), B5+theme(legend.position = "none")+xlab("csgB"), 
           legend, NULL,
-          labels = c("R1", "R2", "R3", "R4", "R5"), nrow = 6, ncol = 2, align = "h")
+          labels = rep(c("R1", "R2", "R3", "R4", "R5"), each = 2), nrow = 6, ncol = 2, align = "h")
 
 # plot_grid(B1, B2, B3, B4, B5, labels = c("R1", "R2", "R3", "R4", "R5"), nrow = 5, align = "h")
 
