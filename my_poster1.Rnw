@@ -48,7 +48,7 @@
 %\setbeamercolor*{itemize subsubitem}{fg=darkred}
 
 \newlength{\columnheight}
-\setlength{\columnheight}{96.5cm}
+\setlength{\columnheight}{94cm}
 \renewcommand{\thetable}{}
 \def\andname{,}
 \authornote{}
@@ -61,13 +61,14 @@
 }
 
 \begin{document}
+\SweaveOpts{concordance=TRUE}
 
 
 \date{}
 
 \author{\large \underline{Jaros\l{}aw Chilimoniuk}\inst{1}, Pawe\l{} Mackiewicz\inst{1} and Micha\l{} Burdukiewicz\inst{2}*\\
 \bigskip
-\normaltext{*jaroslaw.chilimoniuk@gmail.com}}
+\normaltext{*Michal.burdukiewicz@gmail.com}}
 
 \institute{\small{\textsuperscript{1}University of Wroc\l{}aw, Department of Genomics, Wroc\l{}aw, POLAND
 \textsuperscript{2}Warsaw University of Technology, Warsaw, POLAND}}
@@ -89,6 +90,7 @@ library(dplyr)
 library(ggplot2)
 library(reshape2)
 library(ggseqlogo)
+
 @
   
 
@@ -99,7 +101,7 @@ The presence of pre-formed amyloid fibers can accelerate aggregation of other am
 
 
   \begin{block}{Methods}
-  We recently published AmyloGram (Burdukiewicz et al., 2017). It is an efficient tool for prediction of amyloid proteins as CsgA and CsgB. Among others, our algorithm produces a simplified amino acid alphabet for amyloid proteins. It groups amino acid together into six groups based on their physicochemical features. We combined sequences of around 500 triplets CsgA-CsgB-CsgC from closely related gram-negative bacteria and used EVmutation software (Hopf et al., 2017) to find out which residues are especially susceptible to simultaneous mutations. 
+  We recently published AmyloGram (Burdukiewicz et al., 2017). It is an efficient tool for prediction of amyloid proteins as CsgA and CsgB. Among others, our algorithm produces a simplified amino acid alphabet for amyloid proteins. It groups amino acid together into six groups based on their physicochemical features. We combined sequences of around more than 2700 triplets CsgA-CsgB-CsgC from closely related gram-negative bacteria and used EVmutation software (Hopf et al., 2017) to find out which residues are especially susceptible to simultaneous mutations. 
 \end{block}
 
 
@@ -111,6 +113,10 @@ The presence of pre-formed amyloid fibers can accelerate aggregation of other am
 if(Sys.info()[["nodename"]] %in% c("amyloid", "lori")) {
   seq_path_CsgA <- "/home/michal/Dropbox/dropbox-amylogram/PSI-blast/CsgA_muscle.fas"
   seq_path_CsgB <- "/home/michal/Dropbox/dropbox-amylogram/PSI-blast/CsgB_muscle.fas"
+}
+if(Sys.info()[["nodename"]] %in% c("MSI-GE60-2PE")) {
+seq_path_CsgA <- "/home/jarek/Dropbox/amyloids/PSI-blast/CsgA_muscle.fas"
+seq_path_CsgB <- "/home/jarek/Dropbox/amyloids/PSI-blast/CsgB_muscle.fas"
 }
 
 CsgA_regions <- list(R1 = 43L:65, 
@@ -145,6 +151,10 @@ plot_logo_region <- function(seq_path, region){
 
 
 plot_logo_region(seq_path = seq_path_CsgA, region = CsgA_regions[["R1"]])
+plot_logo_region(seq_path = seq_path_CsgA, region = CsgA_regions[["R5"]])
+
+plot_logo_region(seq_path = seq_path_CsgB, region = CsgB_regions[["R1"]])
+plot_logo_region(seq_path = seq_path_CsgB, region = CsgB_regions[["R5"]])
 
 @
   
