@@ -61,14 +61,12 @@
 }
 
 \begin{document}
-\SweaveOpts{concordance=TRUE}
-
 
 \date{}
 
 \author{\large \underline{Jaros\l{}aw Chilimoniuk}\inst{1}, Pawe\l{} Mackiewicz\inst{1} and Micha\l{} Burdukiewicz\inst{2}*\\
 \bigskip
-\normaltext{*Michal.burdukiewicz@gmail.com}}
+\normaltext{*michal.burdukiewicz@gmail.com}}
 
 \institute{\small{\textsuperscript{1}University of Wroc\l{}aw, Department of Genomics, Wroc\l{}aw, POLAND
 \textsuperscript{2}Warsaw University of Technology, Warsaw, POLAND}}
