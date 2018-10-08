@@ -140,8 +140,6 @@ plot_logo_region <- function(seq_path, region){
   
   real_positions <- cumsum(aln_dat[1, ] != "-")
   
-  all_names <- sapply(all_prots, function(ith_prot) ith_prot[[1]])
-  
   ggplot() + geom_logo( apply(aln_dat[, real_positions %in% region], 1, paste0, collapse = "")) + theme_logo()
 }
 
