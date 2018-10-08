@@ -89,6 +89,7 @@ library(ggplot2)
 library(reshape2)
 library(ggseqlogo)
 library(ggrepel)
+library(cowplot)
 @
   
 
@@ -99,7 +100,7 @@ The presence of pre-formed amyloid fibers can accelerate aggregation of other am
 
 
   \begin{block}{Methods}
-  We recently published AmyloGram (Burdukiewicz et al., 2017). It is an efficient tool for prediction of amyloid proteins as CsgA and CsgB. Among others, our algorithm produces a simplified amino acid alphabet for amyloid proteins. It groups amino acid together into six groups based on their physicochemical features. We combined sequences of around more than 2700 triplets CsgA-CsgB-CsgC from closely related gram-negative bacteria and used EVmutation software (Hopf et al., 2017) to find out which residues are especially susceptible to simultaneous mutations. 
+  We recently published AmyloGram (Burdukiewicz et al., 2017). It is an efficient tool for prediction of amyloid proteins as CsgA and CsgB. Among others, our algorithm produces a simplified amino acid alphabet for amyloid proteins. It groups amino acid together into six groups based on their physicochemical features. We combined sequences of 2678 triplets CsgA-CsgB-CsgC from closely related gram-negative bacteria and used EVmutation software (Hopf et al., 2017) to find out which residues are especially susceptible to simultaneous mutations. 
 \end{block}
 
 
@@ -148,11 +149,22 @@ plot_logo_region <- function(seq_path, region){
 }
 
 
-plot_logo_region(seq_path = seq_path_CsgA, region = CsgA_regions[["R1"]])
-plot_logo_region(seq_path = seq_path_CsgA, region = CsgA_regions[["R5"]])
+A1 <- plot_logo_region(seq_path = seq_path_CsgA, region = CsgA_regions[["R1"]])
+A2 <- plot_logo_region(seq_path = seq_path_CsgA, region = CsgA_regions[["R2"]])
+A3 <- plot_logo_region(seq_path = seq_path_CsgA, region = CsgA_regions[["R3"]])
+A4 <- plot_logo_region(seq_path = seq_path_CsgA, region = CsgA_regions[["R4"]])
+A5 <- plot_logo_region(seq_path = seq_path_CsgA, region = CsgA_regions[["R5"]])
 
-plot_logo_region(seq_path = seq_path_CsgB, region = CsgB_regions[["R1"]])
-plot_logo_region(seq_path = seq_path_CsgB, region = CsgB_regions[["R5"]])
+
+B1 <- plot_logo_region(seq_path = seq_path_CsgB, region = CsgB_regions[["R1"]])
+B2 <- plot_logo_region(seq_path = seq_path_CsgB, region = CsgB_regions[["R2"]])
+B3 <- plot_logo_region(seq_path = seq_path_CsgB, region = CsgB_regions[["R3"]])
+B4 <- plot_logo_region(seq_path = seq_path_CsgB, region = CsgB_regions[["R4"]])
+B5 <- plot_logo_region(seq_path = seq_path_CsgB, region = CsgB_regions[["R5"]])
+
+plot_grid(A1, A2, A3, A4, A5, labels = c("R1", "R2", "R3", "R4", "R5"), nrow = 3, align = "h")
+
+plot_grid(B1, B2, B3, B4, B5, labels = c("R1", "R2", "R3", "R4", "R5"), nrow = 3, align = "h")
 
 @
   
